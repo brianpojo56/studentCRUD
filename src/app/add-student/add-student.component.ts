@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { StudentService } from '../student.service';
 import { Student } from '../student';
 
@@ -17,21 +17,21 @@ export class AddStudentComponent implements OnInit {
 
   createStudentForm(): FormGroup {
     return this.fb.group({
-      Name: [''],
-      ChargerID: [''],
-      Anumber: [''],
-      Gender: [''],
-      Level: [''],
+      Name: ['', Validators.required],
+      ChargerID: ['', Validators.required],
+      Anumber: ['', Validators.required],
+      Gender: ['', Validators.required],
+      Level: ['', Validators.required],
       Courses: this.fb.array([this.createCourseForm()])
     });
   }
 
   createCourseForm(): FormGroup {
     return this.fb.group({
-      Name: '',
-      CrnNo: '',
-      Lecturer: '',
-      Code: ''
+      Name: ['', Validators.required],
+      CrnNo: ['', Validators.required],
+      Lecturer: ['', Validators.required],
+      Code: ['', Validators.required]
     })
   }
 
@@ -49,6 +49,7 @@ export class AddStudentComponent implements OnInit {
     this.studentService.addStudent(student as Student)
       .subscribe(student => {
         this.students.push(student);
+        (this as any).studentForm = this.createStudentForm();
       })
   }
 
@@ -64,4 +65,5 @@ export class AddStudentComponent implements OnInit {
   onSubmit() {
     this.addStudent((this as any).studentForm.value);
   }
+  
 }

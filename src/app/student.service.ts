@@ -47,13 +47,12 @@ export class StudentService {
 
   deleteStudent(student: Student): Observable<Student> {
     const id = student.id;
-    const url = `${this.studentUrl}/${id}`;
-
+    const url = `${this.studentUrl}/${id}`;    
+    this.students = this.students.filter(s => s !== student);
     return this.http.delete<Student>(url, httpOptions)
       .pipe(
         tap(_ => {
           console.log(`deleted student id=${id}`);
-          this.students = this.students.filter(s => s !== student);
         })
       );
   }
@@ -61,16 +60,15 @@ export class StudentService {
   updateStudent(student: Student): Observable<any> {
     const id = student.id;
     const url = `${this.studentUrl}/${id}`;
-
+      for (let i = 0; i < this.students.length; i++) {
+        if(this.students[i].id === student.id) {
+          this.students[i] = student;
+        }
+      }
     return this.http.put(url, student, httpOptions)
       .pipe(
         tap(_ => {
           console.log(`updated student id=${id}`);
-            for (let i = 0; i < this.students.length; i++) {
-              if(this.students[i].id === student.id) {
-                this.students[i] = student;
-              }
-            }
           }),
         catchError(this.handleError<any>('updateStudent'))
       );

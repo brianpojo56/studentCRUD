@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { StudentService } from '../student.service';
 import { Student } from '../student';
@@ -19,21 +19,21 @@ export class UpdateStudentComponent implements OnInit {
 
   createStudentForm(): FormGroup {
     return this.fb.group({
-      Name: [''],
-      ChargerID: [''],
-      Anumber: [''],
-      Gender: [''],
-      Level: [''],
+      Name: ['', Validators.required],
+      ChargerID: ['', Validators.required],
+      Anumber: ['', Validators.required],
+      Gender: ['', Validators.required],
+      Level: ['', Validators.required],
       Courses: this.fb.array([])
     });
   }
 
   createCourseForm(): FormGroup {
     return this.fb.group({
-      Name: '',
-      CrnNo: '',
-      Lecturer: '',
-      Code: ''
+      Name: ['', Validators.required],
+      CrnNo: ['', Validators.required],
+      Lecturer: ['', Validators.required],
+      Code: ['', Validators.required]
     })
   }
 
@@ -60,7 +60,10 @@ export class UpdateStudentComponent implements OnInit {
     student.id = this.selectedStudent.id;
     this.students = this.students.filter(s => s !== this.selectedStudent);
     this.students.push(student);
-    this.studentService.updateStudent(student).subscribe();
+    this.studentService.updateStudent(student).subscribe(_ => {
+      this.selectedStudent = null;
+      (this as any).studentForm = this.createStudentForm();
+    });
   }
 
   onSelect(student: Student): void {
