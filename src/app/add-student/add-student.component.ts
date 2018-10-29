@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { StudentService } from '../student.service';
+import { Student } from '../student';
 
 @Component({
   selector: 'app-add-student',
@@ -8,7 +10,7 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 })
 export class AddStudentComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private studentService: StudentService) {
     (this as any).studentForm = this.createStudentForm();
   }
 
@@ -37,11 +39,17 @@ export class AddStudentComponent implements OnInit {
     (this as any).courses.push(this.createCourseForm());
   }
 
+  addStudent(student: Student): void {
+    this.studentService.addStudent(student as Student)
+      .subscribe(student => {
+        this.students.push(student);
+      })
+  }
+
   ngOnInit() {
   }
 
   onSubmit() {
-    // TODO:
-    console.warn((this as any).studentForm.value);
+    this.addStudent((this as any).studentForm.value);
   }
 }
