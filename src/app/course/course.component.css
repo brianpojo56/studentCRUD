@@ -1,0 +1,14 @@
+.courses {
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 0;
+}
+
+.courses li {
+  position: relative;
+  left: 0;
+  background-color: white;
+  margin: 1em;
+  padding: .5em;
+  box-shadow: .3em .3em .2em grey;
+}

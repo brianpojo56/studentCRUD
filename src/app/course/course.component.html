@@ -1,0 +1,8 @@
+<h4>Course List</h4>
+<ul class="courses">
+  <li *ngFor="let course of courses">
+    <div>{{course.Code}} {{course.Name}}</div>
+    <div>CRN: {{course.CrnNo}}</div>
+    <div>Lecturer: {{course.Lecturer}}</div>
+  </li>
+</ul>

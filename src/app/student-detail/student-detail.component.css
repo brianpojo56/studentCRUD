@@ -1,0 +1,9 @@
+.student-detail {
+  position: relative;
+  width: 20em;
+  left: 0;
+  background-color: white;
+  margin: 1em;
+  padding: .5em;
+  box-shadow: .3em .3em .2em grey;
+}
