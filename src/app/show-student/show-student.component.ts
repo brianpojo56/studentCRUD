@@ -11,7 +11,7 @@ export class ShowStudentComponent implements OnInit {
   students: Student[];
   selectedStudent: Student;
 
-  constructor(private studentService: StudentService) { }
+  constructor(public studentService: StudentService) { }
 
   ngOnInit() {
     this.getStudents();

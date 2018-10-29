@@ -14,41 +14,64 @@ const httpOptions = {
 })
 
 export class StudentService {
-
+  students: Student[];
   private studentUrl = 'https://my-json-server.typicode.com/brianpojo56/students/StudentList';
 
   constructor( private http: HttpClient) { }
 
   getStudents(): Observable<Student[]> {
+    if (this.students) {
+      return of(this.students);
+    }
+    else {
     return this.http.get<Student[]>(this.studentUrl)
       .pipe(
-        tap(students => console.log('fetched students')),
+        tap(students => {
+          console.log('fetched students');
+          this.students = students;
+        }),
         catchError(this.handleError('getStudents', []))
       );
+    }
   }
 
   addStudent(student: Student): Observable<Student> {
     return this.http.post<Student>(this.studentUrl, student, httpOptions)
       .pipe(
-        tap((student: Student) => console.log(`added student w/ id=${student.id}`)),
+        tap((student: Student) => {
+          console.log(`added student w/ id=${student.id}`);
+      }),
         catchError(this.handleError<Student>('addStudent'))
       );
   }
 
-  deleteStudent(student: Student | number): Observable<Student> {
-    const id = typeof student === 'number' ? student : student.id;
+  deleteStudent(student: Student): Observable<Student> {
+    const id = student.id;
     const url = `${this.studentUrl}/${id}`;
 
     return this.http.delete<Student>(url, httpOptions)
       .pipe(
-        tap(_ => console.log(`deleted student id=${id}`))
+        tap(_ => {
+          console.log(`deleted student id=${id}`);
+          this.students = this.students.filter(s => s !== student);
+        })
       );
   }
 
   updateStudent(student: Student): Observable<any> {
-    return this.http.put(this.studentUrl, student, httpOptions)
+    const id = student.id;
+    const url = `${this.studentUrl}/${id}`;
+
+    return this.http.put(url, student, httpOptions)
       .pipe(
-        tap(_ => console.log(`updated student id=${student.id}`)),
+        tap(_ => {
+          console.log(`updated student id=${id}`);
+            for (let i = 0; i < this.students.length; i++) {
+              if(this.students[i].id === student.id) {
+                this.students[i] = student;
+              }
+            }
+          }),
         catchError(this.handleError<any>('updateStudent'))
       );
   }

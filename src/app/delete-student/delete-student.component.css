@@ -1,0 +1,28 @@
+.delete-student {
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 0;
+  width: 15em;
+}
+
+.delete-student li {
+  cursor: pointer;
+  position: relative;
+  left: 0;
+  background-color: white;
+  margin: 1em;
+  padding: .5em;
+  height: 1.6em;
+  box-shadow: .3em .3em .2em grey;
+}
+
+.delete-student li:hover {
+  color: #607D8B;
+  background-color: #DDD;
+  left: .1em;
+}
+
+.delete-student .text {
+  position: relative;
+  top: -3px;
+}

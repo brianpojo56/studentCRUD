@@ -1,1 +1,8 @@
 <h2>Delete Students</h2>
+<ul class="delete-student">
+  <li *ngFor="let student of students"
+    [class.selected]="student === selectedStudent"
+    (click)="onSelect(student)">
+    {{student.Name}}
+  </li>
+</ul>

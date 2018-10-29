@@ -1,1 +1,42 @@
 <h2>Update Students</h2>
+<ul class="update-student" *ngIf="!selectedStudent">
+  <li *ngFor="let student of students"
+    [class.selected]="student === selectedStudent"
+    (click)="onSelect(student)">
+    {{student.Name}}
+  </li>
+</ul>
+
+<form [formGroup]="studentForm" (ngSubmit)="onSubmit()" *ngIf="selectedStudent">
+<div class="form-panel">
+  <table>
+    <tr><td>Name:</td><td><input type="text" formControlName="Name"></td>
+    <tr><td>Charger ID:</td><td><input type="text" formControlName="ChargerID"></td>
+    <tr><td>A Number:</td><td><input type="text" formControlName="Anumber"></td>
+    <tr><td>Gender:</td><td><input type="text" formControlName="Gender"></td>
+    <tr><td>Level:</td><td><input type="text" formControlName="Level"></td>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <td>Course Code</td>
+        <td>Course Name</td>
+        <td>CRN</td>
+        <td>Lecturer</td>
+      </tr>
+    </thead>
+    <tbody formArrayName="Courses"
+      *ngFor="let course of studentForm.get('Courses').controls; let i = index;">
+      <tr [formGroupName]="i">
+        <td><input type="text" formControlName="Code"></td>
+        <td><input type="text" formControlName="Name"></td>
+        <td><input type="text" formControlName="CrnNo"></td>
+        <td><input type="text" formControlName="Lecturer"></td>
+        <td><button type="button" (click)="removeCourse(i)">Remove Course</button>
+      </tr>
+    </tbody>
+  </table>
+  <button type="button" (click)="addCourse()">Add Course</button>
+</div>
+<button type="submit" [disabled]="!studentForm.valid">Submit</button>
+</form>

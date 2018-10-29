@@ -11,7 +11,7 @@ import { Student } from '../student';
 export class AddStudentComponent implements OnInit {
   students: Student[];
 
-  constructor(private fb: FormBuilder, private studentService: StudentService) {
+  constructor(private fb: FormBuilder, public studentService: StudentService) {
     (this as any).studentForm = this.createStudentForm();
   }
 
@@ -38,6 +38,11 @@ export class AddStudentComponent implements OnInit {
   addCourse(): void {
     (this as any).courses = (this as any).studentForm.get('Courses') as FormArray;
     (this as any).courses.push(this.createCourseForm());
+  }
+
+  removeCourse(i: number): void {
+    (this as any).courses = (this as any).studentForm.get('Courses') as FormArray;
+    (this as any).courses.removeAt(i);
   }
 
   addStudent(student: Student): void {
