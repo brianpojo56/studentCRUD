@@ -9,6 +9,7 @@ import { Student } from '../student';
   styleUrls: ['./add-student.component.css']
 })
 export class AddStudentComponent implements OnInit {
+  students: Student[];
 
   constructor(private fb: FormBuilder, private studentService: StudentService) {
     (this as any).studentForm = this.createStudentForm();
@@ -47,6 +48,12 @@ export class AddStudentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getStudents();
+  }
+
+  getStudents(): void {
+    this.studentService.getStudents()
+      .subscribe(students => this.students = students);
   }
 
   onSubmit() {
