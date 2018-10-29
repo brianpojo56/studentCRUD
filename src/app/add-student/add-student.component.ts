@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 export class AddStudentComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
-    this.studentForm = this.createStudentForm();
+    (this as any).studentForm = this.createStudentForm();
   }
 
   createStudentForm(): FormGroup {
@@ -33,8 +33,8 @@ export class AddStudentComponent implements OnInit {
   }
 
   addCourse(): void {
-    this.courses = this.studentForm.get('Courses') as FormArray;
-    this.courses.push(this.createCourseForm());
+    (this as any).courses = (this as any).studentForm.get('Courses') as FormArray;
+    (this as any).courses.push(this.createCourseForm());
   }
 
   ngOnInit() {
@@ -42,6 +42,6 @@ export class AddStudentComponent implements OnInit {
 
   onSubmit() {
     // TODO:
-    console.warn(this.studentForm.value);
+    console.warn((this as any).studentForm.value);
   }
 }
